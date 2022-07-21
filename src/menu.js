@@ -1,5 +1,7 @@
 import {
   mdiAccountCircle,
+  mdiAccountSupervisorCircle,
+  mdiAccountCog,
   mdiDesktopMac,
   mdiGithub,
   mdiLock,
@@ -10,86 +12,98 @@ import {
   mdiViewList,
   mdiTelevisionGuide,
   mdiResponsive,
-  mdiPalette
+  mdiPalette,
+  mdiCalendar,
+  mdiCalendarSearch,
+  mdiCalendarClock,
+  mdiWrenchClock
 } from '@mdi/js'
 
 export default [
-  'General',
   [
     {
       to: '/dashboard',
       icon: mdiDesktopMac,
-      label: 'Dashboard'
+      label: 'Startsidan'
     }
   ],
-  'Examples',
+  'Bokningar',
   [
     {
-      to: '/tables',
-      label: 'Tables',
-      icon: mdiTable
+      to: '/bookings',
+      label: 'Se bokningar',
+      icon: mdiCalendar
     },
     {
-      to: '/forms',
-      label: 'Forms',
-      icon: mdiSquareEditOutline
+      to: '/timeslots',
+      label: 'Boka tid',
+      icon: mdiCalendarSearch
     },
+    // mdiTelevisionGuide - Config
+    // mdiResponsive - Assistants
+    // mdiPalette
+    // mdiAccountCircle
+    // mdiAlertCircle
+    // mdiLock
+    // mdiSquareEditOutline
+  ],
+  // 'Admin',
+  // [
+  //   {
+  //     to: '/users',
+  //     label: 'Användare',
+  //     icon: mdiAccountCircle
+  //   },
+  //   {
+  //     to: '/assistants',
+  //     label: 'Assistenter',
+  //     icon: mdiAccountSupervisorCircle
+  //   },
+  //   {
+  //     to: '/config',
+  //     label: 'Konfigurering',
+  //     icon: mdiSquareEditOutline
+  //   },
+  //   {
+  //     to: '/period',
+  //     label: 'Period',
+  //     icon: mdiWrenchClock
+  //   },
+  //   {
+  //     to: '/schedule',
+  //     label: 'Schema',
+  //     icon: mdiCalendarClock
+  //   },
+  // ],
+]
+
+export const adminMenu = [
+  'Admin',
+  [
     {
-      to: '/ui',
-      label: 'UI',
-      icon: mdiTelevisionGuide
-    },
-    {
-      to: '/responsive',
-      label: 'Responsive',
-      icon: mdiResponsive
-    },
-    {
-      to: '/',
-      label: 'Styles',
-      icon: mdiPalette
-    },
-    {
-      to: '/profile',
-      label: 'Profile',
+      to: '/users',
+      label: 'Användare',
       icon: mdiAccountCircle
     },
     {
-      to: '/login',
-      label: 'Login',
-      icon: mdiLock
+      to: '/assistants',
+      label: 'Assistenter',
+      icon: mdiAccountSupervisorCircle
     },
     {
-      to: '/error',
-      label: 'Error',
-      icon: mdiAlertCircle
+      to: '/config',
+      label: 'Konfigurering',
+      icon: mdiSquareEditOutline
     },
     {
-      label: 'Dropdown',
-      icon: mdiViewList,
-      menu: [
-        {
-          label: 'Item One'
-        },
-        {
-          label: 'Item Two'
-        }
-      ]
-    }
+      to: '/period',
+      label: 'Period',
+      icon: mdiWrenchClock
+    },
+    {
+      to: '/schedule',
+      label: 'Schema',
+      icon: mdiCalendarClock
+    },
   ],
-  'About',
-  [
-    {
-      href: 'https://tailwind-vue.justboil.me/',
-      label: 'Premium version',
-      icon: mdiMonitorShimmer,
-      target: '_blank'
-    },
-    {
-      href: 'https://github.com/justboil/admin-one-vue-tailwind',
-      label: 'GitHub',
-      icon: mdiGithub,
-      target: '_blank'
-    }
-  ]
 ]

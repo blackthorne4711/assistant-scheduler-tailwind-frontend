@@ -4,13 +4,10 @@ import Home from '@/views/HomeView.vue'
 
 const routes = [
   {
-    meta: {
-      title: 'Select style',
-      fullScreen: true
-    },
     path: '/',
-    name: 'style',
-    component: Style
+    name: 'Home',
+    component: Home,
+    redirect: '/dashboard',
   },
   {
     // Document title tag
@@ -24,43 +21,43 @@ const routes = [
   },
   {
     meta: {
-      title: 'Tables'
+      title: 'Bokningar'
     },
-    path: '/tables',
-    name: 'tables',
-    component: () => import('@/views/TablesView.vue')
+    path: '/bookings',
+    name: 'bookings',
+    component: () => import('@/views/BookingsView.vue')
   },
   {
     meta: {
-      title: 'Forms'
+      title: 'Arbetspass'
     },
-    path: '/forms',
-    name: 'forms',
-    component: () => import('@/views/FormsView.vue')
+    path: '/timeslots',
+    name: 'timeslots',
+    component: () => import('@/views/TimeslotsView.vue')
   },
   {
     meta: {
-      title: 'Profile'
+      title: 'Assistenter'
     },
-    path: '/profile',
-    name: 'profile',
-    component: () => import('@/views/ProfileView.vue')
+    path: '/assistants',
+    name: 'assistants',
+    component: () => import('@/views/AssistantsView.vue')
   },
   {
     meta: {
-      title: 'Ui'
+      title: 'Konfigurering'
     },
-    path: '/ui',
-    name: 'ui',
-    component: () => import('@/views/UiView.vue')
+    path: '/config',
+    name: 'config',
+    component: () => import('@/views/ConfigView.vue')
   },
   {
     meta: {
-      title: 'Responsive layout'
+      title: 'Scheman'
     },
-    path: '/responsive',
-    name: 'responsive',
-    component: () => import('@/views/ResponsiveView.vue')
+    path: '/schedules',
+    name: 'schedules',
+    component: () => import('@/views/SchedulesView.vue')
   },
   {
     meta: {
@@ -79,7 +76,34 @@ const routes = [
     path: '/error',
     name: 'error',
     component: () => import('@/views/ErrorView.vue')
-  }
+  },
+  {
+    meta: {
+      title: '404',
+      fullScreen: true
+    },
+    path: '/404',
+    name: 'page404',
+    component: () => import('@/views/Page404View.vue')
+  },
+  {
+    meta: {
+      title: '500',
+      fullScreen: true
+    },
+    path: '/500',
+    name: 'page500',
+    component: () => import('@/views/Page500View.vue')
+  },
+  {
+    meta: {
+      title: 'Logout',
+      fullScreen: true
+    },
+    path: '/logout',
+    name: 'logout',
+    component: () => import('@/views/LogoutView.vue')
+  },
 ]
 
 const router = createRouter({

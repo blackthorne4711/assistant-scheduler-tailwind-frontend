@@ -1,17 +1,29 @@
 <script setup>
+import { computed } from 'vue'
+import { useMainStore, UserRoles } from '@/stores/main.js'
 import { useStyleStore } from '@/stores/style.js'
 import { useLayoutStore } from '@/stores/layout.js'
 import { mdiMenu } from '@mdi/js'
 import AsideMenuList from '@/components/AsideMenuList.vue'
 import NavBarItem from '@/components/NavBarItem.vue'
 import BaseIcon from '@/components/BaseIcon.vue'
+import { adminMenu } from '../menu.js'
+
 
 defineProps({
   menu: {
     type: Array,
     default: () => []
+  },
+  adminMenu: {
+    type: Array,
+    adminMenu: () => []
   }
 })
+
+const mainStore = useMainStore()
+
+const userRole = computed(() => mainStore.userRole)
 
 const styleStore = useStyleStore()
 
@@ -47,11 +59,33 @@ const menuClick = () => {
         />
       </NavBarItem>
       <div class="flex-1 px-3">
-        <span>Admin</span> <b class="font-black">One</b>
+        <b class="font-black">Meny</b>
       </div>
     </div>
+
+    <!-- User menu -->
     <div>
       <template v-for="(menuGroup, index) in menu">
+        <p
+          v-if="typeof menuGroup === 'string'"
+          :key="`a-${index}`"
+          class="p-3 text-xs uppercase"
+          :class="styleStore.asideMenuLabelStyle"
+        >
+          {{ menuGroup }}
+        </p>
+        <AsideMenuList
+          v-else
+          :key="`b-${index}`"
+          :menu="menuGroup"
+          @menu-click="menuClick"
+        />
+      </template>
+    </div>
+
+    <!-- Admin menu -->
+    <div v-if="userRole === UserRoles.ADMIN">
+      <template v-for="(menuGroup, index) in adminMenu">
         <p
           v-if="typeof menuGroup === 'string'"
           :key="`a-${index}`"

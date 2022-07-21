@@ -34,7 +34,7 @@ if ((!localStorage[darkModeKey] && window.matchMedia('(prefers-color-scheme: dar
 }
 
 /* Default title tag */
-const defaultDocumentTitle = 'Admin One Vue 3 Tailwind'
+const defaultDocumentTitle = 'Stallhjälpen'
 
 /* Collapse mobile aside menu on route change */
 router.beforeEach(() => {
