@@ -3,6 +3,7 @@ import Home from '@/views/HomeView.vue'
 import { getCurrentUser } from '@/plugins/firebase'
 
 import { useLayoutStore } from '@/stores/layout.js'
+import { useAuthStore } from '@/stores/auth.js'
 
 /* Default title tag */
 const defaultDocumentTitle = 'Stallhjälpen'
@@ -155,19 +156,26 @@ const router = createRouter({
 
 /* Collapse mobile aside menu on route change */
 router.beforeEach(async (to, from, next) => {
-  const authStatus = await getCurrentUser()
+  const authUser = await getCurrentUser()
   const requireAuth = to.matched.some((route) => route.meta.requireAuth)
 
   console.log('To - ' + to.name)
-  console.log('authStatus - ' + authStatus)
+  console.log('authUser - ' + authUser)
+  console.log(authUser)
   console.log('requireAuth - ' + requireAuth)
+
+  const authStore = useAuthStore()
+
+  if (authUser) {
+    authStore.userEmail = authUser.email
+  }
 
   const layoutStore = useLayoutStore()
 
   layoutStore.asideMobileToggle(false)
   layoutStore.asideLgToggle(false)
 
-  if (requireAuth && !authStatus) {
+  if (requireAuth && !authUser) {
     next({ name: "login" })
   } else if (to.meta.redirectIfAuthenticated && authStatus) {
     next({ name: "home" })

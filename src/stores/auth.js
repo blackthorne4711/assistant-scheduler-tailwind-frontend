@@ -16,12 +16,7 @@ export const useAuthStore = defineStore({
   }),
 
   getters: {
-    getCurrentUser: () => auth.currentUser.email,
-    getUserEmail: () => {
-      if (this !== undefined) {
-        console.log('getUserEmail - ' + this.user)
-      }
-    },
+    
   },
 
   actions: {
