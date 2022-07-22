@@ -1,11 +1,16 @@
 import { createRouter, createWebHashHistory } from 'vue-router'
-import Style from '@/views/StyleView.vue'
 import Home from '@/views/HomeView.vue'
+import { getCurrentUser } from '@/plugins/firebase'
+
+import { useLayoutStore } from '@/stores/layout.js'
+
+/* Default title tag */
+const defaultDocumentTitle = 'Stallhjälpen'
 
 const routes = [
   {
     path: '/',
-    name: 'Home',
+    name: 'home',
     component: Home,
     redirect: '/dashboard',
   },
@@ -13,7 +18,8 @@ const routes = [
     // Document title tag
     // We combine it with defaultDocumentTitle set in `src/main.js` on router.afterEach hook
     meta: {
-      title: 'Dashboard'
+      title: 'Dashboard',
+      requireAuth: true,
     },
     path: '/dashboard',
     name: 'dashboard',
@@ -21,7 +27,8 @@ const routes = [
   },
   {
     meta: {
-      title: 'Bokningar'
+      title: 'Bokningar',
+      requireAuth: true,
     },
     path: '/bookings',
     name: 'bookings',
@@ -29,7 +36,8 @@ const routes = [
   },
   {
     meta: {
-      title: 'Arbetspass'
+      title: 'Arbetspass',
+      requireAuth: true,
     },
     path: '/timeslots',
     name: 'timeslots',
@@ -37,7 +45,8 @@ const routes = [
   },
   {
     meta: {
-      title: 'Assistenter'
+      title: 'Assistenter',
+      requireAuth: true,
     },
     path: '/assistants',
     name: 'assistants',
@@ -45,7 +54,8 @@ const routes = [
   },
   {
     meta: {
-      title: 'Konfigurering'
+      title: 'Konfigurering',
+      requireAuth: true,
     },
     path: '/config',
     name: 'config',
@@ -53,7 +63,17 @@ const routes = [
   },
   {
     meta: {
-      title: 'Scheman'
+      title: 'Perioder',
+      requireAuth: true,
+    },
+    path: '/periods',
+    name: 'periods',
+    component: () => import('@/views/PeriodsView.vue')
+  },
+  {
+    meta: {
+      title: 'Scheman',
+      requireAuth: true,
     },
     path: '/schedules',
     name: 'schedules',
@@ -61,8 +81,27 @@ const routes = [
   },
   {
     meta: {
+      title: 'Användare',
+      requireAuth: true,
+    },
+    path: '/users',
+    name: 'users',
+    component: () => import('@/views/UsersView.vue')
+  },
+  {
+    meta: {
+      title: 'Inställningar',
+      requireAuth: true,
+    },
+    path: '/profile',
+    name: 'profile',
+    component: () => import('@/views/ProfileView.vue')
+  },
+  {
+    meta: {
       title: 'Login',
-      fullScreen: true
+      fullScreen: true,
+      redirectIfAuthenticated: false,
     },
     path: '/login',
     name: 'login',
@@ -112,6 +151,40 @@ const router = createRouter({
   scrollBehavior (to, from, savedPosition) {
     return savedPosition || { top: 0 }
   }
+})
+
+/* Collapse mobile aside menu on route change */
+router.beforeEach(async (to, from, next) => {
+  const authStatus = await getCurrentUser()
+  const requireAuth = to.matched.some((route) => route.meta.requireAuth)
+
+  console.log('To - ' + to.name)
+  console.log('authStatus - ' + authStatus)
+  console.log('requireAuth - ' + requireAuth)
+
+  const layoutStore = useLayoutStore()
+
+  layoutStore.asideMobileToggle(false)
+  layoutStore.asideLgToggle(false)
+
+  if (requireAuth && !authStatus) {
+    next({ name: "login" })
+  } else if (to.meta.redirectIfAuthenticated && authStatus) {
+    next({ name: "home" })
+  } else {
+    next()
+  }
+})
+
+router.afterEach(to => {
+  /* Set document title from route meta */
+  document.title = to.meta?.title
+    ? `${to.meta.title} — ${defaultDocumentTitle}`
+    : defaultDocumentTitle
+
+  /* Full screen mode */
+  const layoutStore = useLayoutStore()
+  layoutStore.fullScreenToggle(!!to.meta.fullScreen)
 })
 
 export default router

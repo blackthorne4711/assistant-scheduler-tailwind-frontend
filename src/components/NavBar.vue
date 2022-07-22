@@ -1,6 +1,7 @@
 <script setup>
 import { computed, ref } from 'vue'
 import { useMainStore } from '@/stores/main.js'
+import { useAuthStore } from '@/stores/auth.js'
 import { useStyleStore } from '@/stores/style.js'
 import { useLayoutStore } from '@/stores/layout.js'
 import {
@@ -29,8 +30,9 @@ import UserAvatar from '@/components/UserAvatar.vue'
 import BaseIcon from '@/components/BaseIcon.vue'
 
 const mainStore = useMainStore()
+const authStore = useAuthStore()
 
-const userName = computed(() => mainStore.userName)
+const userName = computed(() => authStore.user != undefined ? authStore.user.email : '')
 
 const styleStore = useStyleStore()
 
@@ -171,22 +173,7 @@ const logout = () => {
                 label="Min profil"
               />
             </NavBarItem>
-            <!-- <NavBarItem
-              @click.prevent="toggleLightDark"
-            >
-              <NavBarItemLabel
-                :icon="mdiThemeLightDark"
-                label="Ljust/Mörkt"
-              />
-            </NavBarItem> -->
-            <NavBarItem>
-              <NavBarItemLabel
-                :icon="mdiCogOutline"
-                label="Inställningar"
-              />
-            </NavBarItem>
-            <BaseDivider nav-bar />
-            <NavBarItem>
+            <NavBarItem to="/logout">
               <NavBarItemLabel
                 :icon="mdiLogout"
                 label="Logga ut"

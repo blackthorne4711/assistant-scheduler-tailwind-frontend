@@ -3,27 +3,41 @@ import { createPinia } from 'pinia'
 
 import App from './App.vue'
 import router from './router'
+
 import { useMainStore } from '@/stores/main.js'
+import { useAuthStore } from '@/stores/auth.js'
 import { useStyleStore } from '@/stores/style.js'
 import { useLayoutStore } from '@/stores/layout.js'
 import { darkModeKey, styleKey } from '@/config.js'
+
+import Toaster from '@meforma/vue-toaster'
+
+//import firebaseService from '@/services/FirebaseService.js'
+
+// Firebase
+import { onAuthStateChanged } from 'firebase/auth'
+import { auth } from "@/plugins/firebase"
 
 import './css/main.css'
 
 /* Init Pinia */
 const pinia = createPinia()
 
-/* Create Vue app */
-createApp(App).use(router).use(pinia).mount('#app')
+// pinia.use(({ authStore }) => {
+//   authStore.router = markRaw(router)
+// })
+pinia.use(({ store }) => {
+  store.router = markRaw(router)
+})
 
 /* Init Pinia stores */
 const mainStore = useMainStore(pinia)
+const authStore = useAuthStore(pinia)
 const styleStore = useStyleStore(pinia)
 const layoutStore = useLayoutStore(pinia)
 
-/* Fetch sample data */
-mainStore.fetch('clients')
-mainStore.fetch('history')
+// Initialize Firebase service
+//firebaseService.init(mainStore)
 
 /* App style */
 styleStore.setStyle(localStorage[styleKey] ?? 'basic')
@@ -34,20 +48,38 @@ if ((!localStorage[darkModeKey] && window.matchMedia('(prefers-color-scheme: dar
 }
 
 /* Default title tag */
-const defaultDocumentTitle = 'Stallhjälpen'
+// const defaultDocumentTitle = 'Stallhjälpen'
 
-/* Collapse mobile aside menu on route change */
-router.beforeEach(() => {
-  layoutStore.asideMobileToggle(false)
-  layoutStore.asideLgToggle(false)
-})
+/* Refresh from Firebase Auth state */
+// const getCurrentUser = () =>
+//   new Promise((resolve, reject) => {
+//     const removeListener = onAuthStateChanged(
+//       getAuth(),
+//       (user) => {
+//         removeListener()
+//         resolve(user)
+//       },
+//       reject,
+//     )
+//   })
 
-router.afterEach(to => {
-  /* Set document title from route meta */
-  document.title = to.meta?.title
-    ? `${to.meta.title} — ${defaultDocumentTitle}`
-    : defaultDocumentTitle
 
-  /* Full screen mode */
-  layoutStore.fullScreenToggle(!!to.meta.fullScreen)
+/* Create Vue app */
+// const app = createApp(App)
+// app.use(pinia)
+// app.use(Toaster, { position: 'top' })
+// app.use(router)
+// app.mount('#app')
+let app
+
+onAuthStateChanged(auth, () => {
+  if (!app) {
+    app = createApp(App)
+
+    app.use(pinia)
+    app.use(Toaster, { position: 'top' })
+    app.use(router)
+
+    app.mount("#app")
+  }
 })

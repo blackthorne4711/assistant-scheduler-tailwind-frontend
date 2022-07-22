@@ -11,17 +11,101 @@ import BaseDivider from '@/components/BaseDivider.vue'
 import BaseButton from '@/components/BaseButton.vue'
 import BaseButtons from '@/components/BaseButtons.vue'
 
+import { useMainStore } from '@/stores/main'
+import { useAuthStore } from '@/stores/auth'
+
 const form = reactive({
-  login: 'john.doe',
-  pass: 'highly-secure-password-fYjUw-',
-  remember: ['remember']
+  login: 'test@stallhjalpen.se',
+  pass: 'nagotkonstigt',
 })
 
 const router = useRouter()
 
 const submit = () => {
-  router.push('/dashboard')
+//function onLogin(values, { setFieldValue, resetForm }) {
+  // const mainStore = useMainStore()
+  const authStore = useAuthStore()
+  // const router = useRouter()
+
+  console.log('Authentication attempt')
+  authStore
+    .login({email: form.login, password: form.pass})
+    .then((userCredentials) => {
+      console.log('Authentication successful')
+      authStore.user = userCredentials.user.email
+      console.log(authStore.user)
+      form.password = ''
+      basiclogin()
+      //this.$router.push({ name: "home" })
+      router.push({path: '/dashboard'})
+    }).catch((error) => {
+      console.log(error)
+      switch (error.code) {
+        case "auth/invalid-email":
+          console.log('Invalid email')
+          //setFieldValue("email", "");
+          break;
+        case "auth/user-disabled":
+          console.log('Disabled user')
+          break;
+        default:
+          console.log('Invalid user/pass')
+          break;
+      }
+
+      //setFieldValue("password", "")
+    })
+
+  // authStore
+  //   .login({email: form.login, password: form.pass})
+  //   .then((userCredentials) => {
+  //     console.log('Authentication successful')
+  //     authStore.user = userCredentials.user
+  //     resetForm()
+
+  //     router.push({ name: "home" })
+  //   })
+  //   .catch((error) => {
+  //     switch (error.code) {
+  //       case "auth/invalid-email":
+  //         console.log('Invalid email')
+  //         //setFieldValue("email", "");
+  //         break;
+  //       case "auth/user-disabled":
+  //         console.log('Disabled user')
+  //         break;
+  //       default:
+  //         console.log('Invalid user/pass')
+  //         break;
+  //     }
+  //     showAlert.value = true;
+  //     setFieldValue("password", "");
+  //   })
+  // }
+
+  // firebaseService
+  // .loginWithBasicAuth(form.login, form.pass)
+  // .then(() => {
+  //   console.log('Successfully logged in')
+  //   firebaseService.onAuth(mainStore)
+  //   router.push('/dashboard')
+  // })
+  // .catch((err) => {
+  //   console.log(err)
+  //   console.log(
+  //     'Error loggin in - ' + err.code + ' (' + err.message + ')',
+  //   )
+  //   // setTimeout(this.$toast.clear, 3000)
+  //   // this.$toast.error(
+  //   //   'Inloggningen misslyckades. Kontrollera email och lösenord, och försök igen.',
+  //   // )
+  // })
 }
+
+function basiclogin() {
+  console.log('TEST')
+}
+
 </script>
 
 <template>
@@ -36,8 +120,8 @@ const submit = () => {
       @submit.prevent="submit"
     >
       <FormField
-        label="Login"
-        help="Please enter your login"
+        label="Email"
+        help="Ange ditt email för att logga in"
       >
         <FormControl
           v-model="form.login"
@@ -48,8 +132,8 @@ const submit = () => {
       </FormField>
 
       <FormField
-        label="Password"
-        help="Please enter your password"
+        label="Lösenord"
+        help="Ange ditt lösenord"
       >
         <FormControl
           v-model="form.pass"
@@ -60,12 +144,6 @@ const submit = () => {
         />
       </FormField>
 
-      <FormCheckRadioPicker
-        v-model="form.remember"
-        name="remember"
-        :options="{ remember: 'Remember' }"
-      />
-
       <BaseDivider />
 
       <BaseButtons>
@@ -73,6 +151,7 @@ const submit = () => {
           type="submit"
           color="info"
           label="Login"
+          @click="basiclogin"
         />
       </BaseButtons>
     </CardBox>

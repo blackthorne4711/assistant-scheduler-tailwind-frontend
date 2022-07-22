@@ -8,7 +8,7 @@ const props = defineProps({
   bg: {
     type: String,
     required: true,
-    validator: value => ['login', 'error'].includes(value)
+    validator: value => ['login', 'logout', 'error'].includes(value)
   }
 })
 
@@ -17,6 +17,7 @@ const mainStore = useMainStore()
 const colorClass = computed(() => {
   switch (props.bg) {
     case 'login':
+    case 'logout':
       return mainStore.darkMode ? sectionBgLoginDark : sectionBgLogin
     case 'error':
       return mainStore.darkMode ? sectionBgErrorDark : sectionBgError

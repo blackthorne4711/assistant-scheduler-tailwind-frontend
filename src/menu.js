@@ -39,42 +39,7 @@ export default [
       label: 'Boka tid',
       icon: mdiCalendarSearch
     },
-    // mdiTelevisionGuide - Config
-    // mdiResponsive - Assistants
-    // mdiPalette
-    // mdiAccountCircle
-    // mdiAlertCircle
-    // mdiLock
-    // mdiSquareEditOutline
   ],
-  // 'Admin',
-  // [
-  //   {
-  //     to: '/users',
-  //     label: 'Användare',
-  //     icon: mdiAccountCircle
-  //   },
-  //   {
-  //     to: '/assistants',
-  //     label: 'Assistenter',
-  //     icon: mdiAccountSupervisorCircle
-  //   },
-  //   {
-  //     to: '/config',
-  //     label: 'Konfigurering',
-  //     icon: mdiSquareEditOutline
-  //   },
-  //   {
-  //     to: '/period',
-  //     label: 'Period',
-  //     icon: mdiWrenchClock
-  //   },
-  //   {
-  //     to: '/schedule',
-  //     label: 'Schema',
-  //     icon: mdiCalendarClock
-  //   },
-  // ],
 ]
 
 export const adminMenu = [
@@ -96,13 +61,13 @@ export const adminMenu = [
       icon: mdiSquareEditOutline
     },
     {
-      to: '/period',
-      label: 'Period',
+      to: '/periods',
+      label: 'Perioder',
       icon: mdiWrenchClock
     },
     {
-      to: '/schedule',
-      label: 'Schema',
+      to: '/schedules',
+      label: 'Scheman',
       icon: mdiCalendarClock
     },
   ],

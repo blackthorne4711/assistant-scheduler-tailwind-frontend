@@ -21,7 +21,7 @@ import CardBoxTransaction from '@/components/CardBoxTransaction.vue'
 import CardBoxClient from '@/components/CardBoxClient.vue'
 import SectionTitleBarSub from '@/components/SectionTitleBarSub.vue'
 
-const titleStack = ref(['', 'Startsidan'])
+const titleStack = ref(['Bokningar', 'Se bokningar'])
 
 const mainStore = useMainStore()
 
@@ -32,7 +32,7 @@ const transactionBarItems = computed(() => mainStore.history.slice(0, 3))
 
 <template>
   <SectionTitleBar :title-stack="titleStack" />
-  <SectionHeroBar>Välkommen</SectionHeroBar>
+  <SectionHeroBar>Se bokningar</SectionHeroBar>
   <SectionMain>
 
   </SectionMain>
