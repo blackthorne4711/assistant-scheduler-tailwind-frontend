@@ -32,11 +32,11 @@ const submit = () => {
     .login({email: form.login, password: form.pass})
     .then((userCredentials) => {
       console.log('Authentication successful')
-      authStore.user = userCredentials.user.email
-      console.log(authStore.user)
+      authStore.user = userCredentials.user
+      authStore.userEmail = userCredentials.user.email
+      console.log(authStore.userEmail)
       form.password = ''
       basiclogin()
-      //this.$router.push({ name: "home" })
       router.push({path: '/dashboard'})
     }).catch((error) => {
       console.log(error)

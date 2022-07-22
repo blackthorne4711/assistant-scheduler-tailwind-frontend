@@ -32,7 +32,8 @@ import BaseIcon from '@/components/BaseIcon.vue'
 const mainStore = useMainStore()
 const authStore = useAuthStore()
 
-const userName = computed(() => authStore.user != undefined ? authStore.user.email : '')
+//const userName = computed(() => authStore.user != undefined ? authStore.user.email : '')
+let userName = computed(() => authStore.userEmail )
 
 const styleStore = useStyleStore()
 

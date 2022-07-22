@@ -11,6 +11,7 @@ export const useAuthStore = defineStore({
 
   state: () => ({
     user: null,
+    userEmail: '',
     isLoggedIn: false,
   }),
 
