@@ -1,9 +1,17 @@
 <script setup>
-import SectionFullScreen from '@/components/SectionFullScreen.vue'
-import CardBox from '@/components/CardBox.vue'
-import BaseDivider from '@/components/BaseDivider.vue'
-import BaseButton from '@/components/BaseButton.vue'
-import BaseButtons from '@/components/BaseButtons.vue'
+  import SectionFullScreen from '@/components/SectionFullScreen.vue'
+  import CardBox from '@/components/CardBox.vue'
+  import BaseDivider from '@/components/BaseDivider.vue'
+  import BaseButton from '@/components/BaseButton.vue'
+  import BaseButtons from '@/components/BaseButtons.vue'
+
+  import { useAuthStore } from '@/stores/auth'
+
+  const authStore = useAuthStore()
+
+  console.log(`Auth logout`)
+  authStore.logout()
+
 </script>
 
 <template>

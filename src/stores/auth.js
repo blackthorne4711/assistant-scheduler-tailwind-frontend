@@ -42,7 +42,7 @@ export const useAuthStore = defineStore({
     logout() {
       signOut(auth)
         .then(() => {
-          this.router.push("/login");
+          console.log("Auth logout successful.");
         })
         .catch((error) => {
           console.log("An error happened.", error);

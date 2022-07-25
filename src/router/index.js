@@ -102,7 +102,7 @@ const routes = [
     meta: {
       title: 'Login',
       fullScreen: true,
-      redirectIfAuthenticated: false,
+      redirectIfAuthenticated: true,
     },
     path: '/login',
     name: 'login',
@@ -177,7 +177,7 @@ router.beforeEach(async (to, from, next) => {
 
   if (requireAuth && !authUser) {
     next({ name: "login" })
-  } else if (to.meta.redirectIfAuthenticated && authStatus) {
+  } else if (to.meta.redirectIfAuthenticated && authUser) {
     next({ name: "home" })
   } else {
     next()
