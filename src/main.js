@@ -8,11 +8,13 @@ import { useMainStore } from '@/stores/main.js'
 import { useAuthStore } from '@/stores/auth.js'
 import { useStyleStore } from '@/stores/style.js'
 import { useLayoutStore } from '@/stores/layout.js'
+
+/* Add App stores here */
+import { usePeriodStore } from '@/stores/period.js'
+
 import { darkModeKey, styleKey } from '@/config.js'
 
 import Toaster from '@meforma/vue-toaster'
-
-//import firebaseService from '@/services/FirebaseService.js'
 
 // Firebase
 import { onAuthStateChanged } from 'firebase/auth'
@@ -36,6 +38,9 @@ const authStore = useAuthStore(pinia)
 const styleStore = useStyleStore(pinia)
 const layoutStore = useLayoutStore(pinia)
 
+/* Add App stores here */
+const periodStore = usePeriodStore(pinia)
+
 // Initialize Firebase service
 //firebaseService.init(mainStore)
 
@@ -50,26 +55,6 @@ if ((!localStorage[darkModeKey] && window.matchMedia('(prefers-color-scheme: dar
 /* Default title tag */
 // const defaultDocumentTitle = 'Stallhjälpen'
 
-/* Refresh from Firebase Auth state */
-// const getCurrentUser = () =>
-//   new Promise((resolve, reject) => {
-//     const removeListener = onAuthStateChanged(
-//       getAuth(),
-//       (user) => {
-//         removeListener()
-//         resolve(user)
-//       },
-//       reject,
-//     )
-//   })
-
-
-/* Create Vue app */
-// const app = createApp(App)
-// app.use(pinia)
-// app.use(Toaster, { position: 'top' })
-// app.use(router)
-// app.mount('#app')
 let app
 
 onAuthStateChanged(auth, () => {

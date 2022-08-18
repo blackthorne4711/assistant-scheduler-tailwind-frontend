@@ -1,6 +1,7 @@
 <script setup>
 import { computed } from 'vue'
-import { useMainStore, UserRoles } from '@/stores/main.js'
+//import { useMainStore } from '@/stores/main.js'
+import { useAuthStore, UserRoles } from '@/stores/auth.js'
 import { useStyleStore } from '@/stores/style.js'
 import { useLayoutStore } from '@/stores/layout.js'
 import { mdiMenu } from '@mdi/js'
@@ -21,9 +22,9 @@ defineProps({
   }
 })
 
-const mainStore = useMainStore()
+const authStore = useAuthStore()
 
-const userRole = computed(() => mainStore.userRole)
+const userRole = computed(() => authStore.userRole)
 
 const styleStore = useStyleStore()
 
@@ -32,6 +33,10 @@ const layoutStore = useLayoutStore()
 const menuClick = () => {
   //
 }
+
+// onMounted(() => {
+//   authStore.getUserProfile();
+// })
 </script>
 
 <template>

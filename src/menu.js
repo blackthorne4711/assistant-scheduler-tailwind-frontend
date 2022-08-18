@@ -16,7 +16,7 @@ import {
   mdiCalendar,
   mdiCalendarSearch,
   mdiCalendarClock,
-  mdiWrenchClock
+  mdiWrenchClock,
 } from '@mdi/js'
 
 export default [

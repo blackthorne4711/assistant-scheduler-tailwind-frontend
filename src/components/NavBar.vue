@@ -1,7 +1,7 @@
 <script setup>
 import { computed, ref } from 'vue'
 import { useMainStore } from '@/stores/main.js'
-import { useAuthStore } from '@/stores/auth.js'
+import { useAuthStore, UserRoles } from '@/stores/auth.js'
 import { useStyleStore } from '@/stores/style.js'
 import { useLayoutStore } from '@/stores/layout.js'
 import {
@@ -27,13 +27,17 @@ import NavBarItemLabel from '@/components/NavBarItemLabel.vue'
 import NavBarMenu from '@/components/NavBarMenu.vue'
 import BaseDivider from '@/components/BaseDivider.vue'
 import UserAvatar from '@/components/UserAvatar.vue'
+import AdminAvatar from '@/components/AdminAvatar.vue'
 import BaseIcon from '@/components/BaseIcon.vue'
 
 const mainStore = useMainStore()
 const authStore = useAuthStore()
 
 //const userName = computed(() => authStore.user != undefined ? authStore.user.email : '')
+//let userEmail = computed(() => authStore.userEmail )
 let userName = computed(() => authStore.userEmail )
+let adminLabel = "Admin "+userName
+let userRole = computed(() => authStore.userRole )
 
 const styleStore = useStyleStore()
 
@@ -127,6 +131,10 @@ const logout = () => {
         <b class="font-semibold text-xl">Stallhjälpen (full)</b>
       </div>
 
+      <div class="py-3 px-6 text-center" v-if="userRole === UserRoles.ADMIN">
+        <b class="font-semibold text-xl">ADMIN</b>
+      </div>
+
     </div>
 
     <!-- <div class="flex-1 items-stretch flex h-14"> -->
@@ -164,7 +172,8 @@ const logout = () => {
 
         <NavBarMenu has-divider>
           <NavBarItemLabel :label="userName">
-            <UserAvatar class="w-6 h-6 mr-3 inline-flex" />
+            <AdminAvatar v-if="userRole === UserRoles.ADMIN" class="w-6 h-6 mr-3 inline-flex" />
+            <UserAvatar v-else class="w-6 h-6 mr-3 inline-flex" />
           </NavBarItemLabel>
 
           <template #dropdown>
@@ -172,6 +181,12 @@ const logout = () => {
               <NavBarItemLabel
                 :icon="mdiAccount"
                 label="Min profil"
+              />
+            </NavBarItem>
+            <NavBarItem @click.prevent="toggleLightDark" >
+              <NavBarItemLabel
+                :icon="mdiThemeLightDark"
+                label="Light/Dark"
               />
             </NavBarItem>
             <NavBarItem to="/logout">

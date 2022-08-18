@@ -159,15 +159,25 @@ router.beforeEach(async (to, from, next) => {
   const authUser = await getCurrentUser()
   const requireAuth = to.matched.some((route) => route.meta.requireAuth)
 
-  console.log('To - ' + to.name)
-  console.log('authUser - ' + authUser)
-  console.log(authUser)
-  console.log('requireAuth - ' + requireAuth)
-
   const authStore = useAuthStore()
 
   if (authUser) {
+    console.log(authUser)
+    authStore.user = authUser
     authStore.userEmail = authUser.email
+    // Get Access token
+    authUser.getIdToken().then(function (idToken) {
+      //console.log(idToken)
+      authStore.accessToken = "Bearer " + idToken
+      //console.log("DEBUG - beforeEach " + authStore.accessToken)
+
+      // Get User role
+      authStore.getUserProfile()
+      //console.log("Role - " + authStore.userRole)
+    }).catch(function (error) {
+      console.log("Error in initializeAuthentication - getIdToken")
+      console.log(error)
+    });
   }
 
   const layoutStore = useLayoutStore()
